@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Дашборд продаж — PP12</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <header>
+      <div>
+        <h1>Дашборд продаж и прибыли</h1>
+        <p class="subtitle">Визуализация для управленческих решений · динамика, сравнение, фильтры</p>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Фильтры и период">
+      <div>
+        <label>Период с
+          <input type="date" id="dateFrom" />
+        </label>
+      </div>
+      <div>
+        <label>Период по
+          <input type="date" id="dateTo" />
+        </label>
+      </div>
+      <div class="filters-row">
+        <span class="kpi-label" style="margin:0;">Категория</span>
+        <div class="checkbox-group" id="categoryFilters"></div>
+      </div>
+      <div class="filters-row">
+        <span class="kpi-label" style="margin:0;">Регион</span>
+        <div class="checkbox-group" id="regionFilters"></div>
+      </div>
+      <button type="button" class="btn" id="btnRefresh">Обновить данные</button>
+      <button type="button" class="btn btn-secondary" id="btnReset">Сбросить фильтры</button>
+      <p class="meta" id="dataMeta">Загрузка…</p>
+    </section>
+
+    <section class="kpi-grid" aria-label="KPI">
+      <div class="kpi-card" id="kpiSales">
+        <div class="kpi-label">Выручка</div>
+        <div class="kpi-value" id="valSales">—</div>
+        <div class="kpi-hint">сумма по отфильтрованным строкам</div>
+      </div>
+      <div class="kpi-card highlight-profit" id="kpiProfit">
+        <div class="kpi-label">Прибыль</div>
+        <div class="kpi-value" id="valProfit">—</div>
+        <div class="kpi-hint" id="hintProfit">—</div>
+      </div>
+      <div class="kpi-card highlight-margin" id="kpiMargin">
+        <div class="kpi-label">Маржа</div>
+        <div class="kpi-value" id="valMargin">—</div>
+        <div class="kpi-hint">прибыль / выручка</div>
+      </div>
+      <div class="kpi-card" id="kpiAvg">
+        <div class="kpi-label">Средняя выручка / день</div>
+        <div class="kpi-value" id="valAvgDaily">—</div>
+        <div class="kpi-hint" id="hintDays">—</div>
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <div class="chart-panel">
+        <h2>Динамика выручки по дням</h2>
+        <div class="chart-wrap tall">
+          <canvas id="chartLine"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts-grid two">
+      <div class="chart-panel">
+        <h2>Сравнение: выручка и прибыль по категориям</h2>
+        <div class="chart-wrap">
+          <canvas id="chartBar"></canvas>
+        </div>
+      </div>
+      <div class="chart-panel">
+        <h2>Доля выручки по регионам</h2>
+        <div class="chart-wrap">
+          <canvas id="chartPie"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <h2>Таблица транзакций <span style="color:var(--muted);font-weight:400;font-size:0.85em;">(строка с макс. прибылью выделена)</span></h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Категория</th>
+              <th>Регион</th>
+              <th class="numeric">Выручка</th>
+              <th class="numeric">Прибыль</th>
+              <th class="numeric">Маржа %</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
